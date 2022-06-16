@@ -11,14 +11,37 @@ generator client {
 }
 
 model Session {
-  id              String    @id
-  sid             String    @unique
-  data            String
-  expiresAt       DateTime
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
+
+model Link {
+  id          Int         @id @default(autoincrement())
+  userId      Int
+  user        User        @relation(fields: [userId], references: [id])
+  link_text   String      @unique
+  link_dest   String
+  access_logs AccessLog[]
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @default(now())
+}
+
+model AccessLog {
+  id        Int      @id @default(autoincrement())
+  ip        String
+  userAgent String
+  referrer  String
+  timestamp DateTime @default(now())
+  link      Link?    @relation(fields: [linkId], references: [id])
+  linkId    Int?
 }
 
 model User {
-  id              Int       @id   @default(autoincrement())
-  name            String    @unique
+  id              Int     @id @default(autoincrement())
+  name            String  @unique
   password_digest String
+  is_admin        Boolean
+  links           Link[]
 }

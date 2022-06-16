@@ -10,8 +10,7 @@
     "clean": "rimraf dist/*",
     "tsc": "tsc",
     "tsc:watch": "tsc --watch",
-    "dev": "ts-node .",
-    "dev:watch": "run-p tsc:watch start:watch",
+    "dev": "run-p tsc:watch start:watch",
     "start": "node dist",
     "start:watch": "nodemon ."
   },

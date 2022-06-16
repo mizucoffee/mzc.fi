@@ -193,8 +193,8 @@ app.post("/api/shorten", async (req, res) => {
   }
 })
 
-app.get("/:link_text", async (req, res) => {
-  const link = await prisma.link.findFirst({ where: { linkText: req.params.link_text } })
+app.get("*", async (req, res) => {
+  const link = await prisma.link.findFirst({ where: { linkText: req.originalUrl.slice(1) } })
   if(link) {
     res.redirect(link.linkDest)
     // Access Log追加

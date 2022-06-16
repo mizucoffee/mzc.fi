@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Geo:ital@0;1&display=swap');
+
+* {
+  text-align: center;
+  font-family: 'Cairo', sans-serif;
+}
+
+body {
+  min-height: inherit !important;
+}
+
+h2 {
+  line-height: 1em;
+  font-family: 'Geo', sans-serif;
+}
+
+header {
+  margin-top: 80px;
+  margin-bottom: 64px;
+  color: #2D0088;
+}
+
+header h1 {
+  font-size: 72pt;
+  line-height: 1em;
+  font-style: italic;
+  font-family: 'Geo', sans-serif;
+}
+
+header p {
+  font-size: 18pt;
+  font-style: italic;
+  font-family: 'Geo', sans-serif;
+}
+
+main {
+  margin: 90px 0px 110px;
+}
+
+main h2 {
+  font-size: 32pt;
+}
+
+main p {
+  font-size: 16pt;
+}
+
+footer {
+  margin-top: 160px;
+  color: #2D0088;
+}
+
+.signin {
+  text-align: left;
+  width: fit-content;
+  margin: 16px auto 0px;
+}
+
+input[type=text],
+input[type=password],
+input[type=url] {
+  /* margin: 8px 0; */
+  text-align: left;
+  display: block;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 0px 8px;
+  font-size: 16pt;
+  transition: background-color 0.2s;
+}
+
+input[type=text]:focus,
+input[type=password]:focus ,
+input[type=url]:focus {
+  border: 2px solid #2D0088;
+  outline: none;
+}
+
+
+
+input[type='submit'] {
+  margin: 24px auto 0px;
+  background-color: white;
+  color: #2D0088;
+  border: 2px solid #2D0088;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  display: block;
+  padding: 4px 16px;
+}
+
+input[type='submit']:hover {
+  background-color: #2D0088;
+  color: white;
+}
+
+input.longurl {
+  margin: 16px auto 0px;
+  width: 600px;
+  font-size: 24px;
+  padding: 8px 16px;
+}
+
+.shorte_btn {
+  margin: 16px auto 0px;
+  width: 130px;
+  font-size: 20px;
+}
+
+h3 {
+  font-weight: 400;
+  font-size: 32px;
+  margin-top: 48px;
+}
+
+table {
+  margin: 16px auto;
+  max-width: 1024px;
+  width: 90vw;
+}
+table th{
+  padding: 8px;
+  font-size: 16px;
+  background: #fafafa;
+}
+
+table td {
+  background: #fafafa;
+  padding: 0px 8px;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  margin: 16px auto 0px;
+}
+
+input.shorturl {
+  margin: auto;
+  width: 100%;
+  font-size: 24px;
+  padding: 8px 4px;
+}
+
+
+.flex span {
+  font-size: 24px;
+  margin: auto;
+  padding: 8px 0px 8px 16px;
+}

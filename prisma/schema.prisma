@@ -21,11 +21,11 @@ model Link {
   id          Int         @id @default(autoincrement())
   userId      Int
   user        User        @relation(fields: [userId], references: [id])
-  link_text   String      @unique
-  link_dest   String
-  access_logs AccessLog[]
-  created_at  DateTime    @default(now())
-  updated_at  DateTime    @default(now())
+  linkText   String      @unique
+  linkDest   String
+  accessLogs AccessLog[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @default(now())
 }
 
 model AccessLog {
@@ -41,7 +41,7 @@ model AccessLog {
 model User {
   id              Int     @id @default(autoincrement())
   name            String  @unique
-  password_digest String
-  is_admin        Boolean
+  passwordDigest String
+  isAdmin        Boolean
   links           Link[]
 }

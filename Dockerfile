@@ -1,9 +1,9 @@
-FROM node:12
+FROM node:16-alpine
 
 ENV PORT 3000
-ADD . /ts-prisma-boilerplate
+ADD . /mzcfi
 
-WORKDIR /ts-prisma-boilerplate
+WORKDIR /mzcfi
 RUN yarn && yarn build
 
 CMD ["node", "dist"]

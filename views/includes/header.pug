@@ -1,15 +1,6 @@
-h1 ts-prisma-boilerplate
-ul
-  li
-    a(href="/") Top page
-  if user == null
-    li
-      a(href="/auth/signin") Sign in
-    li
-      a(href="/auth/signup") Sign up
-  else
-    li
-      p User: #{user.name}
-    li
-      a(href="/auth/signout") Sign out
-hr
+header
+  h1 #{site_name}
+  p #{site_description}
+  if user
+    span Welcome, mizucoffee 
+    a(href="/?signout=true") Sign out

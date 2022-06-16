@@ -1,0 +1,200 @@
+swagger: "2.0"
+info:
+  description: "ts-prisma-boilerplateのAPIドキュメントです。"
+  version: "1.0.0"
+  title: "TS-Prisma-Boilerplate API"
+host: "ts-prisma-boilerplate.mizucoffee.net"
+basePath: "/api"
+tags:
+- name: "auth"
+  description: "認証"
+- name: "user"
+  description: "ユーザー情報"
+schemes:
+- "https"
+consumes:
+- application/json
+- application/x-www-form-urlencoded
+produces:
+- application/json
+securityDefinitions:
+  Bearer:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+paths:
+  /auth/signup:
+    post:
+      tags:
+      - "auth"
+      summary: "新規登録"
+      description: "アカウントを新規登録します"
+      operationId: "auth_signup"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "新規登録"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "name"
+          - "password"
+          properties:
+            name:
+              type: "string"
+              example: "mizu"
+            password:
+              type: "string"
+              example: "mizu1234"
+      responses:
+        200:
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              access_token:
+                type: "string"
+                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNjMyOTkxMjY5LCJleHAiOjE2MzI5OTEzMjl9.IEPsJs74-fVDzsjzyXnWm6kZxfmVVXocFSoPpOrPez0"
+              refresh_token:
+                type: "string"
+                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ0eXBlIjoicmVmcmVzaF90b2tlbiIsImlhdCI6MTYzMjk5MTI2OSwiZXhwIjoxNjM1NTgzMjY5fQ.yT0dge1rUrOxx4VNrwlMrHaQxjF2yuPyF51evhcihL4"
+        400:
+          description: "必須項目が空"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "invalid request"
+        409:
+          description: "指定されたユーザ名が既に登録されている"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "already registered name"
+  /auth/signin:
+    post:
+      tags:
+      - "auth"
+      summary: "ログイン"
+      description: 
+        ユーザ名とパスワードでログインします
+        アクセストークンは1時間、リフレッシュトークンは30日の有効期限です
+      operationId: "auth_signin"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "ログイン"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "name"
+          - "password"
+          properties:
+            name:
+              type: "string"
+              example: "mizu"
+            password:
+              type: "string"
+              example: "mizu1234"
+      responses:
+        200:
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              access_token:
+                type: "string"
+                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNjMyOTkxMjY5LCJleHAiOjE2MzI5OTEzMjl9.IEPsJs74-fVDzsjzyXnWm6kZxfmVVXocFSoPpOrPez0"
+              refresh_token:
+                type: "string"
+                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ0eXBlIjoicmVmcmVzaF90b2tlbiIsImlhdCI6MTYzMjk5MTI2OSwiZXhwIjoxNjM1NTgzMjY5fQ.yT0dge1rUrOxx4VNrwlMrHaQxjF2yuPyF51evhcihL4"
+        400:
+          description: "必須項目が空"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "invalid request"
+        404:
+          description: "アカウントが存在しない"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "not found"
+  /auth/token:
+    post:
+      tags:
+      - "auth"
+      summary: "トークン更新"
+      description: "リフレッシュトークンからアクセストークンを生成"
+      operationId: "auth_token"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "トークン更新"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "refresh_token"
+          properties:
+            refresh_token:
+              type: "string"
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ0eXBlIjoicmVmcmVzaF90b2tlbiIsImlhdCI6MTYzMzAwMTI4OSwiZXhwIjoxNjM1NTkzMjg5fQ.CJSPJzlslycn76imi5-teOgzb1QePB1TxGnX-EZ86dI"
+      responses:
+        200:
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              access_token:
+                type: "string"
+                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNjMyOTkxMjY5LCJleHAiOjE2MzI5OTEzMjl9.IEPsJs74-fVDzsjzyXnWm6kZxfmVVXocFSoPpOrPez0"
+              refresh_token:
+                type: "string"
+                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ0eXBlIjoicmVmcmVzaF90b2tlbiIsImlhdCI6MTYzMjk5MTI2OSwiZXhwIjoxNjM1NTgzMjY5fQ.yT0dge1rUrOxx4VNrwlMrHaQxjF2yuPyF51evhcihL4"
+        400:
+          description: "リフレッシュトークンが正しくない"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "invalid refresh token"
+  /user/me:
+    get:
+      tags:
+      - "user"
+      summary: "ユーザー情報を取得"
+      description: "ユーザー情報を返すAPI（検証用）"
+      operationId: "user_me"
+      security:
+      - Bearer:
+      responses:
+        200:
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+                example: 1
+              name:
+                type: "string"
+                example: mizu
+        401:
+          description: "ログインされていない"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "unauthorized"

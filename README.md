@@ -1,3 +1,1 @@
-# mzc.fi
-
-mzc.fi - mizucoffee private url shortener
+![mzc.fi-logo](https://raw.githubusercontent.com/mizucoffee/mzc.fi/main/banner.png)

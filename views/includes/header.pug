@@ -1,6 +1,6 @@
 header
-  h1 #{site_name}
-  p #{site_description}
+  h1 #{siteInfo.siteName}
+  p #{siteInfo.siteDescription}
   if user
-    span Welcome, mizucoffee 
-    a(href="/?signout=true") Sign out
+    span Welcome, #{user.nickname}! 
+    a(href="/logout") Sign out

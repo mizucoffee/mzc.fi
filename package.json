@@ -6,23 +6,20 @@
   "author": "Ritsuki Goto <develop@mizucoffee.net>",
   "license": "ISC",
   "scripts": {
-    "build": "npm-run-all clean tsc",
+    "build": "npm-run-all clean tsc generate",
     "clean": "rimraf dist/*",
     "tsc": "tsc",
     "tsc:watch": "tsc --watch",
+    "generate": "prisma generate",
     "dev": "run-p tsc:watch start:watch",
     "start": "node dist",
     "start:watch": "nodemon ."
   },
   "dependencies": {
-    "@prisma/client": "3.1.1",
-    "@quixo3/prisma-session-store": "^3.1.0",
-    "bcrypt": "^5.0.1",
-    "body-parser": "^1.19.0",
+    "@prisma/client": "^4.16.2",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "express-session": "^1.17.2",
-    "jsonwebtoken": "^8.5.1",
+    "express-openid-connect": "^2.18.0",
     "log4js": "^6.3.0",
     "pug": "^3.0.2",
     "source-map-support": "^0.5.20",
@@ -30,7 +27,6 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
-    "@types/body-parser": "^1.19.1",
     "@types/config": "^0.0.39",
     "@types/express": "^4.17.13",
     "@types/express-session": "^1.17.4",
@@ -40,7 +36,8 @@
     "@types/source-map-support": "^0.5.4",
     "nodemon": "^2.0.13",
     "npm-run-all": "^4.1.5",
-    "prisma": "^3.1.1",
+    "prisma": "^4.16.2",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
   }

@@ -1,31 +1,21 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
-model Session {
-  id        String   @id
-  sid       String   @unique
-  data      String
-  expiresAt DateTime
-}
-
 model Link {
-  id          Int         @id @default(autoincrement())
-  userId      Int
-  user        User        @relation(fields: [userId], references: [id])
+  id         Int         @id @default(autoincrement())
+  userId     String      @default("")
   linkText   String      @unique
   linkDest   String
-  accessLogs AccessLog[]
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @default(now())
+  userName   String      @default("")
+  accessLogs AccessLog[]
 }
 
 model AccessLog {
@@ -34,14 +24,6 @@ model AccessLog {
   userAgent String
   referrer  String
   timestamp DateTime @default(now())
-  link      Link?    @relation(fields: [linkId], references: [id])
   linkId    Int?
-}
-
-model User {
-  id              Int     @id @default(autoincrement())
-  name            String  @unique
-  passwordDigest String
-  isAdmin        Boolean
-  links           Link[]
+  link      Link?    @relation(fields: [linkId], references: [id])
 }

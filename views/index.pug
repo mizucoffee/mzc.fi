@@ -3,88 +3,9 @@ html(lang="ja")
   head
     include includes/head
     title #{site_name}
-    script.
-      document.addEventListener('DOMContentLoaded', function() {
-        const url = document.querySelector('.longurl');
-        const update = document.querySelector('.update');
-        const shorturl = document.querySelector('.shorturl');
-        const message = document.querySelector('.message');
-        const submitBtn = document.querySelector('.shorten_btn');
-        if(url) {
-          url.addEventListener('keydown', function(e) {
-            if (e.keyCode === 13) {
-              e.preventDefault();
-              send(url.value);
-            }
-          });
-          submitBtn.addEventListener('click', function(e) {
-            send(url.value);
-          });
-        }
-        function send(url) {
-          fetch('/api/shorten', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              url: url,
-              update: update.value,
-              linktext: shorturl.value
-            })
-          }).then(function(response) {
-            return response.json();
-          }).then(function(data) {
-            if(data.error) {
-              message.innerHTML = data.error;
-            } else {
-              message.innerHTML = `#{domain}/${data.linkText}`;
-              if(update.value || shorturl.value) {
-                location.href = '/'
-              }
-            }
-          })
-        }
-      });
   body
     include includes/header
     main
-      if user
-        if linkText
-          h3.message Update #{domain}/#{linkText}
-        else
-          h3.message Let's shorten the URL!
-        div.flex
-          span #{domain}/
-          input(type="text", value=`${linkText || ""}`, placeholder="link text (optional)" name="linktext" class="shorturl")
-        input(type="text", value=`${linkDest || ""}`, name="url", class="longurl", placeholder=`https://example.com/your/long/url...`)
-        input(type="hidden", name="update", class="update" value=`${linkText || ""}`)
-        input(type="submit", class="shorten_btn", value="Shorten!")
-
-        h3 Links
-        table
-          thead
-            tr
-              th Short URL
-              th Destination
-              th Created At
-              th Actions
-          for link in links
-            tr
-              td.link_text
-                a(href=`//${domain}/${link.linkText}` target="_blank") #{domain}/#{link.linkText}
-              td.link_dest #{link.linkDest}
-              td.link_created_at #{link.createdAt.toLocaleString()}
-              td.actions
-                a(href=`/?update=${link.linkText}`) Edit
-                span &nbsp;/&nbsp;
-                a(href=`/?delete=${link.linkText}`) Delete
-      else
-        h2 Sign in
-        form(action="/signin", method="post" class="signin")
-          label(for="name") User Name
-          input(type="text", name="name", placeholder="")
-          label(for="password") Password
-          input(type="password", name="password", placeholder="")
-          input(type="submit", value="Sign in")
+      h2 Sign in
+      a(class="button" href="/login") Sign in with #{siteInfo.provider}
     include includes/footer

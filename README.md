@@ -17,4 +17,10 @@ DATABASE_URL=postgres://postgres:postgres@localhost/mzcfi
 SITE_NAME=mzc.fi
 DOMAIN=mzc.fi
 SITE_DESCRIPTION="mizucoffee Private URL Shortener"
+PROVIDER_NAME=IDP
+ISSUER_BASE_URL=https://idp.your.domain/mzcfi
+BASE_URL: https://mzc.fi
+CLIENT_ID: YOUR_CLIENT_ID
+CLIENT_SECRET: YOUR_CLIENT_SECRET
+SECRET: YOUR_SECRET
 ```

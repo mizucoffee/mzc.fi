@@ -1,0 +1,140 @@
+doctype html
+html(lang="ja")
+  head
+    include includes/head
+    title #{siteInfo.siteName}
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        const url = document.querySelector('.longurl');
+        const update = document.querySelector('.update');
+        const shorturl = document.querySelector('.shorturl');
+        const message = document.querySelector('.message');
+        const submitBtn = document.querySelector('.shorten_btn');
+        if(url) {
+          url.addEventListener('keydown', function(e) {
+            if (e.keyCode === 13) {
+              e.preventDefault();
+              create(url.value);
+            }
+          });
+          submitBtn.addEventListener('click', function(e) {
+            create(url.value);
+          });
+        }
+        function create(url) {
+          fetch('/api/link', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              url: url,
+              update: update.value,
+              linktext: shorturl.value
+            })
+          })
+          .then(res => res.json())
+          .then(function(data) {
+            if(data.error) {
+              message.innerHTML = data.error;
+              return
+            }
+            location.reload();
+          })
+        }
+      });
+      function edit(id) {
+        const linkDest = document.querySelector(`#link-dest-${id}`);
+        const editBtn = document.querySelector(`#edit-${id}`);
+        const saveBtn = document.querySelector(`#save-${id}`);
+        const deleteBtn = document.querySelector(`#delete-${id}`);
+        const cancelBtn = document.querySelector(`#cancel-${id}`);
+        linkDest.disabled = false;
+        editBtn.hidden = true;
+        saveBtn.hidden = false;
+        deleteBtn.hidden = true;
+        cancelBtn.hidden = false;
+      }
+      function save(id) {
+        fetch(`/api/link/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            url: document.querySelector(`#link-dest-${id}`).value
+          })
+        })
+        .then(res => res.json())
+        .then(function(data) {
+          if(data.error) {
+            alert(data.error);
+          }
+          location.reload();
+        });
+      }
+      function cancel(id) {
+        const linkDest = document.querySelector(`#link-dest-${id}`);
+        const editBtn = document.querySelector(`#edit-${id}`);
+        const saveBtn = document.querySelector(`#save-${id}`);
+        const deleteBtn = document.querySelector(`#delete-${id}`);
+        const cancelBtn = document.querySelector(`#cancel-${id}`);
+        linkDest.disabled = true;
+        linkDest.value = linkDest.getAttribute('data-default');
+        editBtn.hidden = false;
+        saveBtn.hidden = true;
+        deleteBtn.hidden = false;
+        cancelBtn.hidden = true;
+      }
+      function remove(id) {
+        if(confirm('Are you sure you want to delete this link?')) {
+          fetch(`/api/link/${id}`, {
+            method: 'DELETE'
+          })
+          .then(res => res.json())
+          .then(function(data) {
+            if(data.error) {
+              alert(data.error);
+            }
+            location.reload();
+          });
+        }
+      }
+  body
+    include includes/header
+    main
+      if linkText
+        h3.message Update #{siteInfo.domain}/#{linkText}
+      else
+        h3.message Let's shorten the URL!
+      div.flex
+        span #{siteInfo.domain}/
+        input(type="text", value=`${linkText || ""}`, placeholder="link text (optional)" name="linktext" class="shorturl")
+      input(type="text", value=`${linkDest || ""}`, name="url", class="longurl", placeholder=`https://example.com/your/long/url...`)
+      input(type="hidden", name="update", class="update" value=`${linkText || ""}`)
+      input(type="submit", class="shorten_btn", value="Shorten!")
+
+      h3 Links
+      table
+        thead
+          tr
+            th Short URL
+            th Destination
+            th Author
+            th Created At
+            th Actions
+        for link in links
+          tr
+            td.link_text
+              a(href=`//${siteInfo.domain}/${link.linkText}`) #{siteInfo.domain}/#{link.linkText}
+            td.link_dest
+              input(id=`link-dest-${link.id}` data-default=link.linkDest disabled value=link.linkDest style="text-align: left;")
+            td.author #{link.userName}
+            td.link_created_at #{link.createdAt.toLocaleString()}
+            td.actions
+              button(style="font-size:10pt;" onclick=`edit(${link.id})` id=`edit-${link.id}`) Edit
+              button(style="font-size:10pt;" onclick=`save(${link.id})` id=`save-${link.id}` hidden) Save
+              span &nbsp;/&nbsp;
+              button(style="font-size:10pt;" onclick=`remove(${link.id})` id=`delete-${link.id}`) Delete
+              button(style="font-size:10pt;" onclick=`cancel(${link.id})` id=`cancel-${link.id}` hidden) Cancel
+    include includes/footer
